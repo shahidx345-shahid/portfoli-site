@@ -1,25 +1,86 @@
 'use client';
 
-import { Suspense } from 'react'
-import { ArrowRight, Github, Linkedin, Mail, Twitter } from "lucide-react"
-import Image from "next/image"
+import { Suspense, useEffect, useState } from 'react';
+import { ArrowRight, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import Image from "next/image";
 import dynamic from 'next/dynamic';
 import { ClientOnly } from '@/utils/noop';
 
+// Client-side only components
+const ClientComponents = () => {
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  if (!mounted) return null;
+  
+  return (
+    <>
+      <ClientComponentsWrapper />
+      <Navbar />
+    </>
+  );
+};
+
 // Dynamically import components that use browser APIs
-const ProjectCard = dynamic(() => import("@/components/project-card"), { ssr: false });
-const SkillOrb = dynamic(() => import("@/components/skill-orb"), { ssr: false });
-const Navbar = dynamic(() => import("@/components/navbar"), { ssr: true });
-const TypedText = dynamic(() => import("@/components/typed-text"), { ssr: false });
-const ScrollReveal = dynamic(() => import("@/components/animations/scroll-reveal"), { ssr: false });
-const ParallaxSection = dynamic(() => import("@/components/animations/parallax-section"), { ssr: false });
-const Magnetic = dynamic(() => import("@/components/animations/magnetic"), { ssr: false });
-const Card3D = dynamic(() => import("@/components/animations/3d-card"), { ssr: false });
-const LiquidButton = dynamic(() => import("@/components/animations/liquid-button"), { ssr: false });
-const TextShimmer = dynamic(() => import("@/components/animations/text-shimmer"), { ssr: false });
-const WaveDivider = dynamic(() => import("@/components/animations/wave-divider"), { ssr: false });
-const ContactFormAlt = dynamic(() => import("@/components/contact-form-alt"), { ssr: false });
-const ClientComponentsWrapper = dynamic(() => import("@/components/client-components-wrapper"), { ssr: false });
+const ProjectCard = dynamic(() => import("@/components/project-card"), { 
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"></div>
+});
+
+const SkillOrb = dynamic(() => import("@/components/skill-orb"), { 
+  ssr: false,
+  loading: () => <div className="h-64 w-64 rounded-full bg-gray-200 dark:bg-gray-800 animate-pulse"></div>
+});
+
+const Navbar = dynamic(() => import("@/components/navbar"), { 
+  ssr: true 
+});
+
+const TypedText = dynamic(() => import("@/components/typed-text"), { 
+  ssr: false,
+  loading: () => <span className="h-6 inline-block"></span>
+});
+
+const ScrollReveal = dynamic(() => import("@/components/animations/scroll-reveal"), { 
+  ssr: false 
+});
+
+const ParallaxSection = dynamic(() => import("@/components/animations/parallax-section"), { 
+  ssr: false 
+});
+
+const Magnetic = dynamic(() => import("@/components/animations/magnetic"), { 
+  ssr: false 
+});
+
+const Card3D = dynamic(() => import("@/components/animations/3d-card"), { 
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"></div>
+});
+
+const LiquidButton = dynamic(() => import("@/components/animations/liquid-button"), { 
+  ssr: false 
+});
+
+const TextShimmer = dynamic(() => import("@/components/animations/text-shimmer"), { 
+  ssr: false 
+});
+
+const WaveDivider = dynamic(() => import("@/components/animations/wave-divider"), { 
+  ssr: false 
+});
+
+const ContactFormAlt = dynamic(() => import("@/components/contact-form-alt"), { 
+  ssr: false,
+  loading: () => <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse"></div>
+});
+
+const ClientComponentsWrapper = dynamic(() => import("@/components/client-components-wrapper"), { 
+  ssr: false 
+});
 
 // Loading fallback
 const LoadingFallback = () => <div className="w-full h-40 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-lg"></div>
@@ -27,11 +88,9 @@ const LoadingFallback = () => <div className="w-full h-40 bg-gray-200 dark:bg-gr
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 dark:from-black dark:via-gray-900 dark:to-black text-gray-900 dark:text-white overflow-hidden">
-<ClientOnly>
-        <ClientComponentsWrapper />
+      <ClientOnly>
+        <ClientComponents />
       </ClientOnly>
-
-      <Navbar />
 
       {/* Hero Section - Consistent padding */}
       <section className="relative min-h-screen flex items-center px-6 sm:px-8 py-24 border-b border-gray-200 dark:border-white/10">
