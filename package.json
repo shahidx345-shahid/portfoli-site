@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "vercel-build": "next build",
-    "export": "next build && next export"
+    "export": "next build && next export",
+    "postinstall": "next telemetry disable"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

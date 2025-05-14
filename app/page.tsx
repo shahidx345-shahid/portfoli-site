@@ -1,19 +1,25 @@
+'use client';
+
 import { Suspense } from 'react'
 import { ArrowRight, Github, Linkedin, Mail, Twitter } from "lucide-react"
 import Image from "next/image"
-import ProjectCard from "@/components/project-card"
-import SkillOrb from "@/components/skill-orb"
-import Navbar from "@/components/navbar"
-import TypedText from "@/components/typed-text"
-import ScrollReveal from "@/components/animations/scroll-reveal"
-import ParallaxSection from "@/components/animations/parallax-section"
-import Magnetic from "@/components/animations/magnetic"
-import Card3D from "@/components/animations/3d-card"
-import LiquidButton from "@/components/animations/liquid-button"
-import TextShimmer from "@/components/animations/text-shimmer"
-import WaveDivider from "@/components/animations/wave-divider"
-import ContactFormAlt from "@/components/contact-form-alt"
-import ClientComponentsWrapper from "@/components/client-components-wrapper"
+import dynamic from 'next/dynamic';
+import { ClientOnly } from '@/utils/noop';
+
+// Dynamically import components that use browser APIs
+const ProjectCard = dynamic(() => import("@/components/project-card"), { ssr: false });
+const SkillOrb = dynamic(() => import("@/components/skill-orb"), { ssr: false });
+const Navbar = dynamic(() => import("@/components/navbar"), { ssr: true });
+const TypedText = dynamic(() => import("@/components/typed-text"), { ssr: false });
+const ScrollReveal = dynamic(() => import("@/components/animations/scroll-reveal"), { ssr: false });
+const ParallaxSection = dynamic(() => import("@/components/animations/parallax-section"), { ssr: false });
+const Magnetic = dynamic(() => import("@/components/animations/magnetic"), { ssr: false });
+const Card3D = dynamic(() => import("@/components/animations/3d-card"), { ssr: false });
+const LiquidButton = dynamic(() => import("@/components/animations/liquid-button"), { ssr: false });
+const TextShimmer = dynamic(() => import("@/components/animations/text-shimmer"), { ssr: false });
+const WaveDivider = dynamic(() => import("@/components/animations/wave-divider"), { ssr: false });
+const ContactFormAlt = dynamic(() => import("@/components/contact-form-alt"), { ssr: false });
+const ClientComponentsWrapper = dynamic(() => import("@/components/client-components-wrapper"), { ssr: false });
 
 // Loading fallback
 const LoadingFallback = () => <div className="w-full h-40 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-lg"></div>
@@ -21,8 +27,9 @@ const LoadingFallback = () => <div className="w-full h-40 bg-gray-200 dark:bg-gr
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 dark:from-black dark:via-gray-900 dark:to-black text-gray-900 dark:text-white overflow-hidden">
-      {/* Client-side components */}
-      <ClientComponentsWrapper />
+<ClientOnly>
+        <ClientComponentsWrapper />
+      </ClientOnly>
 
       <Navbar />
 
